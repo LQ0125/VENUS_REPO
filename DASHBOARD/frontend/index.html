@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content="Monitoring and secure Operator Mode dashboard for the VENUS cyber-physical system" />
+    <title>VENUS · System Overview</title>
+    <link rel="stylesheet" href="/assets/app.css" />
+    <script defer src="/assets/app.js"></script>
+  </head>
+  <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="#overview" aria-label="VENUS overview">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img">
+              <circle cx="12" cy="12" r="8.5"></circle>
+              <path d="M8.4 9.1c1.8-2 5.1-2 7.1 0M8.4 14.9c1.8 2 5.1 2 7.1 0"></path>
+            </svg>
+          </span>
+          <span>VENUS</span>
+        </a>
+
+        <div class="system-wordmark" aria-label="V.E.N.U.S">
+          V.E.N.U.S
+        </div>
+
+        <nav class="primary-nav" aria-label="Dashboard sections">
+          <button class="nav-item is-active" data-view="overview">Overview</button>
+          <button class="nav-item" data-view="box-one">Box 1</button>
+          <button class="nav-item" data-view="box-two">Box 2</button>
+          <button class="nav-item" data-view="safety">Safety</button>
+          <button class="nav-item" data-view="activity">Activity</button>
+          <button class="nav-item" data-view="operator">Operator</button>
+        </nav>
+
+        <div class="topbar-actions">
+          <button class="icon-button" id="theme-toggle" type="button" aria-label="Change appearance">
+            <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="3.5"></circle>
+              <path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"></path>
+            </svg>
+          </button>
+          <div class="microphone-pill is-offline" id="microphone-pill" aria-live="polite" title="VENUS microphone status">
+            <span class="microphone-glyph" aria-hidden="true"></span>
+            <span id="microphone-label">Voice offline</span>
+          </div>
+          <button class="operator-pill is-read-only" id="operator-pill" type="button" aria-label="Open Operator Mode">
+            <span class="lock-glyph" aria-hidden="true"></span>
+            <span id="operator-pill-label">Read only</span>
+          </button>
+          <div class="connection-pill" id="connection-pill" aria-live="polite">
+            <span class="status-dot status-unknown"></span>
+            <span id="connection-label">Connecting</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <section class="view is-visible" id="view-overview" data-view-panel="overview">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">Living room system</p>
+            <h1>System overview</h1>
+            <p class="page-subtitle">A calm, live view of the VENUS environment.</p>
+          </div>
+          <div class="updated-block">
+            <span>Latest system update</span>
+            <strong id="latest-update">Waiting for data</strong>
+          </div>
+        </div>
+
+        <section class="safety-banner is-hidden" id="safety-banner" aria-live="assertive">
+          <div class="safety-symbol" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3 2.8 19h18.4L12 3Z"></path>
+              <path d="M12 8v5.5M12 17h.01"></path>
+            </svg>
+          </div>
+          <div>
+            <p class="eyebrow" id="safety-banner-eyebrow">Critical safety alert</p>
+            <h2 id="safety-banner-title">Emergency detected</h2>
+            <p id="safety-banner-detail">VENUS safety response is active.</p>
+          </div>
+          <span class="banner-time" id="safety-banner-time"></span>
+        </section>
+
+        <div class="overview-grid">
+          <section class="hero-card surface-card">
+            <div class="card-topline">
+              <div>
+                <p class="card-label">Current environment</p>
+                <h2>Living room</h2>
+              </div>
+              <div class="state-chip" id="environment-chip">
+                <span class="status-dot status-unknown"></span>
+                <span>Waiting</span>
+              </div>
+            </div>
+
+            <div class="hero-metrics">
+              <div class="hero-metric">
+                <span class="metric-value" id="temperature-value">—</span>
+                <span class="metric-unit">°C</span>
+                <span class="metric-label">Temperature</span>
+              </div>
+              <div class="metric-divider" aria-hidden="true"></div>
+              <div class="hero-metric">
+                <span class="metric-value" id="humidity-value">—</span>
+                <span class="metric-unit">%</span>
+                <span class="metric-label">Humidity</span>
+              </div>
+            </div>
+
+            <div class="sensor-summary">
+              <div class="summary-item"><span class="summary-icon gas-icon" aria-hidden="true"></span><div><span>Gas</span><strong id="gas-summary">Unknown</strong></div></div>
+              <div class="summary-item"><span class="summary-icon flame-icon" aria-hidden="true"></span><div><span>Flame</span><strong id="flame-summary">Unknown</strong></div></div>
+              <div class="summary-item"><span class="summary-icon data-icon" aria-hidden="true"></span><div><span>Sensor data</span><strong id="sensor-validity">Unknown</strong></div></div>
+            </div>
+          </section>
+
+          <section class="surface-card connectivity-card">
+            <div class="card-topline">
+              <div><p class="card-label">Connectivity</p><h2>System services</h2></div>
+              <span class="service-count" id="service-count">0 of 5 online</span>
+            </div>
+            <div class="service-list" id="overview-service-list"></div>
+          </section>
+        </div>
+
+        <section class="section-block">
+          <div class="section-heading">
+            <div><p class="card-label">Physical state</p><h2>Living room devices</h2></div>
+            <p>Latest confirmed or observed hardware state</p>
+          </div>
+          <div class="device-grid">
+            <article class="device-card">
+              <div class="device-glyph" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M8.2 14.5A6 6 0 1 1 15.8 14.5c-.9.7-1.5 1.5-1.7 2.5h-4.2c-.2-1-.8-1.8-1.7-2.5Z"></path></svg></div>
+              <div class="device-copy"><span>Living-room light</span><strong id="light-state">Unknown</strong><small id="light-mode">Mode unavailable</small></div>
+            </article>
+            <article class="device-card">
+              <div class="device-glyph" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3h14v18H5zM15.5 12h.01"></path></svg></div>
+              <div class="device-copy"><span>Living-room door</span><strong id="door-state">Unknown</strong><small id="door-angle">Angle unavailable</small></div>
+            </article>
+            <article class="device-card">
+              <div class="device-glyph" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 15V9a5 5 0 0 1 10 0v6l2 2H5l2-2ZM10 20h4"></path></svg></div>
+              <div class="device-copy"><span>Emergency buzzer</span><strong id="buzzer-state">Unknown</strong><small id="buzzer-source">Reflex status unavailable</small></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-block activity-preview">
+          <div class="section-heading">
+            <div><p class="card-label">Timeline</p><h2>Recent activity</h2></div>
+            <button class="text-button" data-jump-view="activity">View all</button>
+          </div>
+          <div class="timeline surface-card" id="overview-activity"></div>
+        </section>
+      </section>
+
+      <section class="view" id="view-box-one" data-view-panel="box-one">
+        <div class="page-heading">
+          <div><p class="eyebrow">Sensor and safety node</p><h1>Box 1</h1><p class="page-subtitle">Environmental sensing and local emergency reflex.</p></div>
+          <div class="large-status" id="box-one-status">Unknown</div>
+        </div>
+        <div class="detail-grid">
+          <section class="surface-card detail-hero">
+            <p class="card-label">Environmental readings</p>
+            <div class="reading-grid">
+              <div><span id="box1-temperature">—</span><small>Temperature · °C</small></div>
+              <div><span id="box1-humidity">—</span><small>Humidity · %</small></div>
+              <div><span id="box1-gas">—</span><small>Gas detection</small></div>
+              <div><span id="box1-flame">—</span><small>Flame detection</small></div>
+            </div>
+          </section>
+          <section class="surface-card facts-card">
+            <p class="card-label">Hardware state</p>
+            <dl>
+              <div><dt>Buzzer</dt><dd id="box1-buzzer">Unknown</dd></div>
+              <div><dt>Local reflex</dt><dd id="box1-reflex">Unknown</dd></div>
+              <div><dt>DHT11 reading</dt><dd id="box1-dht">Unknown</dd></div>
+              <div><dt>Last telemetry</dt><dd id="box1-last-seen">Never</dd></div>
+              <div><dt>Gateway path</dt><dd id="box1-path">Unknown</dd></div>
+            </dl>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="view-box-two" data-view-panel="box-two">
+        <div class="page-heading">
+          <div><p class="eyebrow">Living-room actuator node</p><h1>Box 2</h1><p class="page-subtitle">Lighting and door state reported by the PIC controller.</p></div>
+          <div class="large-status" id="box-two-status">Unknown</div>
+        </div>
+        <div class="detail-grid">
+          <section class="surface-card light-showcase">
+            <div class="light-orb" id="light-orb" aria-hidden="true"></div>
+            <p class="card-label">Living-room light</p><h2 id="box2-light-mode">Unknown</h2><p id="box2-light-description">Waiting for Box 2 telemetry.</p>
+          </section>
+          <section class="surface-card door-showcase">
+            <div class="door-visual" aria-hidden="true"><span class="door-panel" id="door-panel"></span><span class="door-frame"></span></div>
+            <p class="card-label">Living-room door</p><h2 id="box2-door-state">Unknown</h2><p id="box2-door-angle">Angle unavailable</p>
+          </section>
+        </div>
+        <section class="surface-card facts-card wide-facts">
+          <p class="card-label">Node diagnostics</p>
+          <dl>
+            <div><dt>Gateway path</dt><dd id="box2-path">Unknown</dd></div>
+            <div><dt>Last telemetry</dt><dd id="box2-last-seen">Never</dd></div>
+            <div><dt>Light telemetry</dt><dd id="box2-light-raw">Unknown</dd></div>
+            <div><dt>Door telemetry</dt><dd id="box2-door-raw">Unknown</dd></div>
+          </dl>
+        </section>
+      </section>
+
+      <section class="view" id="view-safety" data-view-panel="safety">
+        <div class="page-heading">
+          <div><p class="eyebrow">Deterministic protection</p><h1>Safety</h1><p class="page-subtitle">Active hazards, automatic responses, and recovery.</p></div>
+          <div class="large-status" id="safety-page-status">Unknown</div>
+        </div>
+        <section class="safety-overview surface-card" id="safety-overview">
+          <div class="safety-ring" aria-hidden="true"><span></span></div>
+          <div><p class="card-label">Current state</p><h2 id="safety-heading">Waiting for VENUS</h2><p id="safety-description">Safety events will appear here.</p></div>
+        </section>
+        <section class="section-block">
+          <div class="section-heading"><div><p class="card-label">Event history</p><h2>Safety timeline</h2></div><p>Newest event first</p></div>
+          <div class="timeline surface-card" id="safety-timeline"></div>
+        </section>
+      </section>
+
+      <section class="view" id="view-activity" data-view-panel="activity">
+        <div class="page-heading"><div><p class="eyebrow">System observability</p><h1>Activity</h1><p class="page-subtitle">Recent commands, outcomes, and Core events.</p></div></div>
+        <div class="activity-grid">
+          <section><div class="section-heading compact"><div><p class="card-label">Commands</p><h2>Command results</h2></div></div><div class="timeline surface-card" id="command-timeline"></div></section>
+          <section><div class="section-heading compact"><div><p class="card-label">All events</p><h2>Core event stream</h2></div></div><div class="timeline surface-card" id="event-timeline"></div></section>
+        </div>
+      </section>
+
+      <section class="view" id="view-operator" data-view-panel="operator">
+        <div class="page-heading operator-heading">
+          <div>
+            <p class="eyebrow">Authenticated system control</p>
+            <h1>Operator Mode</h1>
+            <p class="page-subtitle">Secure, deliberate control of VENUS voice and living-room hardware.</p>
+          </div>
+          <div class="large-status locked" id="operator-page-status">Read only</div>
+        </div>
+
+        <section class="operator-access surface-card" id="operator-access-card" aria-live="polite">
+          <div class="operator-access-copy">
+            <span class="access-symbol" id="access-symbol" aria-hidden="true"></span>
+            <div>
+              <p class="card-label">Access</p>
+              <h2 id="operator-access-title">Checking Operator Mode</h2>
+              <p id="operator-access-description">VENUS is confirming how this dashboard was opened.</p>
+            </div>
+          </div>
+
+          <div class="operator-login is-hidden" id="operator-login">
+            <button class="primary-action" id="passkey-login" type="button">Use Face ID or Touch ID</button>
+            <div class="login-divider"><span>or use laptop credentials</span></div>
+            <form id="password-login-form" autocomplete="on">
+              <label>
+                <span>Username</span>
+                <input id="operator-username" name="username" autocomplete="username" value="operator" required />
+              </label>
+              <label>
+                <span>Password</span>
+                <input id="operator-password" name="password" type="password" autocomplete="current-password" required />
+              </label>
+              <button class="secondary-action" id="password-login" type="submit">Unlock Operator Mode</button>
+            </form>
+          </div>
+
+          <div class="operator-session is-hidden" id="operator-session">
+            <div>
+              <span class="session-label">Authenticated operator</span>
+              <strong id="operator-session-user">Operator</strong>
+              <small id="operator-session-detail">Session active</small>
+            </div>
+            <div class="session-actions">
+              <button class="secondary-action" id="register-passkey" type="button">Add Face ID or Touch ID</button>
+              <button class="quiet-action" id="operator-logout" type="button">Lock</button>
+            </div>
+          </div>
+        </section>
+
+        <div class="control-lock-note" id="control-lock-note">
+          <span class="lock-glyph" aria-hidden="true"></span>
+          <span id="control-lock-message">Controls are locked.</span>
+        </div>
+
+        <fieldset class="voice-control-panel surface-card" id="voice-controls" disabled>
+          <legend class="sr-only">VENUS microphone control</legend>
+          <div class="voice-control-identity">
+            <span class="voice-control-symbol" aria-hidden="true"><span class="microphone-glyph"></span></span>
+            <div>
+              <p class="card-label">Voice input</p>
+              <h2>VENUS microphone</h2>
+              <p>Controls whether the sidecar forwards Mac microphone audio to Gemini.</p>
+            </div>
+          </div>
+          <div class="voice-control-state">
+            <span>Current state</span>
+            <strong id="operator-microphone-state">Unknown</strong>
+            <small id="operator-voice-remote-state">Physical remote status unavailable</small>
+          </div>
+          <div class="dual-actions voice-control-actions">
+            <button class="control-action" type="button" data-microphone-state="true">Enable listening</button>
+            <button class="control-action" type="button" data-microphone-state="false">Mute VENUS</button>
+          </div>
+        </fieldset>
+
+        <fieldset class="operator-controls" id="operator-controls" disabled>
+          <legend class="sr-only">VENUS actuator controls</legend>
+
+          <article class="control-card surface-card">
+            <div class="control-card-topline">
+              <div class="device-glyph" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M8.2 14.5A6 6 0 1 1 15.8 14.5c-.9.7-1.5 1.5-1.7 2.5h-4.2c-.2-1-.8-1.8-1.7-2.5Z"></path></svg></div>
+              <span class="control-state" id="operator-light-state">Unknown</span>
+            </div>
+            <div class="control-copy">
+              <p class="card-label">Box 2</p>
+              <h2>Living-room light</h2>
+              <p>Choose the requested white-light temperature.</p>
+            </div>
+            <div class="mode-selector" role="group" aria-label="Living-room light mode">
+              <button type="button" data-command-target="led" data-command-state="true" data-command-mode="warm_white"><span class="temperature-dot warm"></span>Warm</button>
+              <button type="button" data-command-target="led" data-command-state="true" data-command-mode="natural_white"><span class="temperature-dot natural"></span>Natural</button>
+              <button type="button" data-command-target="led" data-command-state="true" data-command-mode="daylight"><span class="temperature-dot daylight"></span>Daylight</button>
+            </div>
+            <button class="control-action" type="button" data-command-target="led" data-command-state="false" data-command-mode="off">Turn light off</button>
+          </article>
+
+          <article class="control-card surface-card">
+            <div class="control-card-topline">
+              <div class="device-glyph" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3h14v18H5zM15.5 12h.01"></path></svg></div>
+              <span class="control-state" id="operator-door-state">Unknown</span>
+            </div>
+            <div class="control-copy">
+              <p class="card-label">Box 2</p>
+              <h2>Living-room door</h2>
+              <p>The servo represents closed at 0° and open at 90°.</p>
+            </div>
+            <div class="dual-actions">
+              <button class="control-action" type="button" data-command-target="servo" data-command-state="true">Open · 90°</button>
+              <button class="control-action" type="button" data-command-target="servo" data-command-state="false">Close · 0°</button>
+            </div>
+          </article>
+
+          <article class="control-card surface-card critical-control">
+            <div class="control-card-topline">
+              <div class="device-glyph" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 15V9a5 5 0 0 1 10 0v6l2 2H5l2-2ZM10 20h4"></path></svg></div>
+              <span class="control-state" id="operator-buzzer-state">Unknown</span>
+            </div>
+            <div class="control-copy">
+              <p class="card-label">Box 1</p>
+              <h2>Emergency buzzer</h2>
+              <p>Manual control does not disable the PIC local emergency reflex.</p>
+            </div>
+            <div class="dual-actions">
+              <button class="control-action danger" type="button" data-command-target="buzzer" data-command-state="true">Activate buzzer</button>
+              <button class="control-action" type="button" data-command-target="buzzer" data-command-state="false">Deactivate buzzer</button>
+            </div>
+          </article>
+        </fieldset>
+
+        <div class="operator-feedback" id="operator-feedback" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer class="footer"><span>VENUS CPS</span><span id="footer-access-label">Read-only monitoring</span><span id="footer-clock"></span></footer>
+    <div class="sr-only" aria-live="polite" id="live-announcer"></div>
+  </body>
+</html>

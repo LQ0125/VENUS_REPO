@@ -1,0 +1,8 @@
+aiomqtt
+python-dotenv
+google-genai
+livekit-agents
+livekit-plugins-google
+websockets
+aiohttp
+webauthn>=2.2,<3
