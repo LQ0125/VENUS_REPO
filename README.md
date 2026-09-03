@@ -1,8 +1,6 @@
-# VENUS — Voice-Enabled Networked Unified System
+# **V.E.N.U.S - Very Endearing Networked Unified System**
 
 VENUS is a living-room cyber-physical systems prototype that combines voice interaction, environmental monitoring, deterministic local control, and coordinated actuator response. A laptop hosts the VENUS Core runtime, Mosquitto MQTT broker, Gemini/LiveKit voice sidecar, and dashboard services. Two embedded hardware boxes communicate with the Core over Wi-Fi and MQTT.
-
-> **Academic prototype:** VENUS is not a certified fire, gas, security, or life-safety system.
 
 ## Project Overview
 
