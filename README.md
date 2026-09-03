@@ -23,11 +23,11 @@ VENUS demonstrates how local embedded control can work together with higher-leve
 flowchart TD
     User[User] --> Voice[Gemini / LiveKit Voice Sidecar]
     User --> Dashboard[Dashboard and Operator Mode]
-    Voice <-->|WebSocket| Core[VENUS Core on MacBook]
+    Voice <-->|WebSocket| Core[VENUS Core on laptop]
     Dashboard <-->|HTTP, HTTPS and WebSocket| Core
     Core <-->|MQTT| Broker[Mosquitto MQTT Broker]
 
-    Broker <-->|Wi-Fi| ESP1[Box 1 ESP32-S3 Gateway]
+    Broker <-->|Wi-Fi| ESP1[Box 1 ESP32 Gateway]
     ESP1 <-->|UART| PIC1[Box 1 PIC18F4520]
     PIC1 --> Sensors[MQ-2, KY-026 and DHT11]
     PIC1 --> Buzzer[Active Buzzer]
@@ -375,7 +375,7 @@ Potential future development includes:
 
 ## Author and Academic Information
 
-- **Author:** Oo Yong Da, Chow Win Sean, Poon Chun Yuh, Chew Wei Shern, Goh Pui Ling
+- **Author:** C2GOP LifeXF2Shield - Oo Yong Da, Chow Win Sean, Poon Chun Yuh, Chew Wei Shern, Goh Pui Ling
 - **Course or module:** UEEA 2634
 - **Institution:** University Tunku Abdul Rahman
 - **Academic year:** Year 2 Sem 3
